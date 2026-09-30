@@ -11,6 +11,9 @@ expense_counter = 0
 # Begin expense input prompting
 while add_expense != 0.00:
     add_expense = float(input("Enter expense or 0 to finish: "))
+    if add_expense < 0:
+        print("Invalid input. Please try again.")
+        continue
     if add_expense == 0:
         break
     expense_list.append(add_expense)
