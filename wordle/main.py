@@ -1,28 +1,41 @@
 # Noah Shuldberg
-# Wordle word-guessing game
-import worlde_functions
-# Welcome player to the game
-# Play again while loop
-play_again = ""
+# Wordle Game
+from wordle_functions import choose_word, get_guess, evaluate_guess, display_guess, has_won
+print("Welcome to the Wordle!")
+play_again = "Y"
 while play_again != "N":
     num_guesses = 6
-    while num_guesses > 0:
-        # Generate secret word
-        rand_word = ""
-        word = worlde_functions.choose_word(rand_word)
-
-        # Run get_guess
-        for guess in range(num_guesses):
-            guess = worlde_functions.get_guess(guess)
-            if guess == word:
-                break
-            else:
-                
+    attempt = 0
+    guess_list = []
+    # Generate secret word
+    word = choose_word()
+    print(word)
+    while attempt < num_guesses:
             
-            # if guess has correctly placed letters, display greens.
-            # if guess[0] == word[0]:
-                # print("G----")
-            # if guess has correct letters (not correctly placed), display yellows.
-            # if guess has no correct letters, display nothing.
-            num_guesses -= 1
+            # Prompt user for guess
+            print(f"\nGuess #{attempt+1}")
+            guess = get_guess("")
 
+            # Check if word has already been guessed before taking away a guess.
+            while guess in guess_list:
+                print("You already guessed this word! Try again.")
+                guess = get_guess("")
+
+            guess_list.append(guess)  
+
+            # Break if guess is right
+            if guess == word:
+                attempt += 1
+                break
+
+            # If guess is wrong, evaluate player's guess
+            feedback = evaluate_guess(guess, word)
+            print('\n')
+            display_guess(guess, feedback)
+            attempt += 1
+
+    if has_won(guess, word) == True:
+        print("Congratulations! You guessed the word.")
+    else:
+        print(f"So close! The word was {word}")
+    play_again = input("Would you like to play again? (Y/N): ").upper()
