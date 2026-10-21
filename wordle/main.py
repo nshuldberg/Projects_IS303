@@ -9,7 +9,6 @@ while play_again != "N":
     guess_list = []
     # Generate secret word
     word = choose_word()
-    print(word)
     while attempt < num_guesses:
             
             # Prompt user for guess
